@@ -3,5 +3,5 @@ variable "aws_region" {
 }
 
 variable "project_code" {
-  default = "comvpcsg"
+  default = "vpcsg"
 }

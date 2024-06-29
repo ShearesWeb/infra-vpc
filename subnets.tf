@@ -10,7 +10,7 @@ locals {
     }
     prd-web-subnet-public-1b = {
       env               = "prd"
-      cidr_block        = "10.0.16.0/21"
+      cidr_block        = "10.0.8.0/21"
       availability_zone = "ap-southeast-1b"
       usable_hosts      = 2043
     }
