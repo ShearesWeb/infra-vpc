@@ -4,6 +4,12 @@ resource "aws_ssm_parameter" "vpc_id" {
   value = aws_vpc.common.id
 }
 
+resource "aws_ssm_parameter" "vpc_cidr" {
+  name  = "/${var.project_code}/cidr"
+  type  = "String"
+  value = aws_vpc.common.cidr_block
+}
+
 resource "aws_ssm_parameter" "internal_dns_id" {
   name  = "/${var.project_code}/zone_id"
   type  = "String"
