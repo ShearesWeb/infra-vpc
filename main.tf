@@ -20,7 +20,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket               = "com-all-bucket-tfstate-algebananazzzzz"
+    bucket               = "com-all-bucket-terraform-state-algebananazzzzz"
     key                  = "comvpcsg.tfstate"
     workspace_key_prefix = "tf-state"
     region               = "ap-southeast-1"
