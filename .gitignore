@@ -17,7 +17,7 @@ upload/
 # Exclude all .tfvars files except config/
 *.tfvars
 *.tfvars.json
-!config/*.tfvars
+!infra/config/*.tfvars
 
 # Ignore override files
 override.tf
