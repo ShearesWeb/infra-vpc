@@ -32,8 +32,7 @@ The `modules/natinstance/` directory is deleted. The `ssm.tf` file is deleted. A
 | `project_code` | `string` | `"vpcsg"` | Naming prefix for all resources |
 | `vpc_cidr` | `string` | `"10.0.0.0/16"` | VPC CIDR block; all subnets auto-derived |
 | `availability_zones` | `list(string)` | `["ap-southeast-1a", "ap-southeast-1b"]` | AZs to deploy across |
-| `environments` | `map(object({tiers = set(string)}))` | See below | Environments and their subnet tiers |
-| `environment_index` | `map(number)` | `{prd=0, preprod=1, com=3}` | Fixed CIDR index per env for allocation stability |
+| `environments` | `map(object({index = number, tiers = set(string)}))` | See below | Environments, CIDR index, and subnet tiers |
 | `nat_instance_type` | `string` | `"t4g.nano"` | NAT instance size |
 | `enable_nat_instance` | `bool` | `true` | Toggle NAT instance + app subnets |
 | `enable_vpc_endpoints` | `bool` | `true` | Free endpoints: S3 + DynamoDB gateways + EC2 Instance Connect |
@@ -42,9 +41,9 @@ The `modules/natinstance/` directory is deleted. The `ssm.tf` file is deleted. A
 Default `environments`:
 ```hcl
 {
-  prd     = { tiers = ["web", "app"] }
-  preprod = { tiers = ["web", "app"] }
-  com     = { tiers = ["web", "db"] }
+  prd     = { index = 0, tiers = ["web", "app"] }
+  preprod = { index = 1, tiers = ["web", "app"] }
+  com     = { index = 2, tiers = ["web", "db"] }
 }
 ```
 
@@ -64,15 +63,12 @@ VPC: 10.0.0.0/16
 │   ├── web-1b: 10.0.72.0/21
 │   ├── app-1a: 10.0.80.0/21
 │   └── app-1b: 10.0.88.0/21
-├── (reserved, index 2): 10.0.128.0/18
-└── com     (index 3): 10.0.192.0/18
-    ├── web-1a: 10.0.192.0/21
-    ├── web-1b: 10.0.200.0/21
-    ├── db-1a:  10.0.208.0/21
-    └── db-1b:  10.0.216.0/21
+└── com     (index 2): 10.0.128.0/18
+    ├── web-1a: 10.0.128.0/21
+    ├── web-1b: 10.0.136.0/21
+    ├── db-1a:  10.0.144.0/21
+    └── db-1b:  10.0.152.0/21
 ```
-
-Index 2 is reserved (previously stg) so existing CIDRs remain stable.
 
 Implementation uses nested `cidrsubnet()`:
 - Outer: `cidrsubnet(var.vpc_cidr, 2, env_index)` → `/18` per environment
