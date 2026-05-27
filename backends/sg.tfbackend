@@ -1,0 +1,4 @@
+bucket               = "com-ops-bucket-tfstate-shweb"
+key                  = "vpc.tfstate"
+workspace_key_prefix = "tf-state"
+region               = "ap-southeast-1"
