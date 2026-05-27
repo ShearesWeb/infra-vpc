@@ -9,10 +9,9 @@ upload/
 .aws
 */.aws
 
-# .tfstate and lock files
+# .tfstate files
 *.tfstate
 *.tfstate.*
-*.terraform.lock.hcl
 
 # Exclude all .tfvars files
 *.tfvars
