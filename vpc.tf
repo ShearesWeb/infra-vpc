@@ -1,27 +1,17 @@
-locals {
-  vpc_cidr_block = "10.0.0.0/16"
-  vpc_name       = "com-all-vpc-${var.project_code}"
-  igw_name       = "com-all-igw-${var.project_code}"
-}
-
-resource "aws_vpc" "common" {
-  cidr_block           = local.vpc_cidr_block
+resource "aws_vpc" "main" {
+  cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   tags = {
-    Environment = "com"
-    Name        = local.vpc_name
-    Zone        = "all"
+    Name = "${var.project_code}-vpc"
   }
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.common.id
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
 
   tags = {
-    Environment = "com"
-    Name        = local.igw_name
-    Zone        = "web"
+    Name = "${var.project_code}-igw"
   }
 }
