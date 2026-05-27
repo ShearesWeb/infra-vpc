@@ -13,9 +13,10 @@ upload/
 *.tfstate
 *.tfstate.*
 
-# Exclude all .tfvars files
+# Exclude all .tfvars files except config/
 *.tfvars
 *.tfvars.json
+!config/*.tfvars
 
 # Ignore override files
 override.tf
@@ -26,3 +27,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Docs
+docs/

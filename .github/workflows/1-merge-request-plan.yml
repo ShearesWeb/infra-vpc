@@ -35,7 +35,7 @@ jobs:
         run: terraform init -backend-config=${{ vars.BACKEND_CONFIG }}
 
       - name: Terraform Plan
-        run: terraform plan -detailed-exitcode
+        run: terraform plan -var-file=${{ vars.TFVARS }} -detailed-exitcode
 
   tag:
     name: Create Semver Tag

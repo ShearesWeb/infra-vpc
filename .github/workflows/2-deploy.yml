@@ -27,4 +27,4 @@ jobs:
         run: terraform init -backend-config=${{ vars.BACKEND_CONFIG }}
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -var-file=${{ vars.TFVARS }} -auto-approve
