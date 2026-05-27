@@ -1,7 +1,12 @@
 variable "availability_zones" {
-  description = "List of availability zones to deploy subnets across"
+  description = "List of availability zones to deploy subnets across (max 2)"
   type        = list(string)
   default     = ["ap-southeast-1a", "ap-southeast-1b"]
+
+  validation {
+    condition     = length(var.availability_zones) >= 1 && length(var.availability_zones) <= 2
+    error_message = "Between 1 and 2 availability zones are supported."
+  }
 }
 
 variable "aws_region" {
@@ -61,9 +66,14 @@ variable "environments" {
 }
 
 variable "nat_instance_type" {
-  description = "EC2 instance type for the fck-nat instance"
+  description = "EC2 instance type for the fck-nat instance (must be arm64/Graviton)"
   type        = string
   default     = "t4g.nano"
+
+  validation {
+    condition     = can(regex("^(t4g|m6g|m7g|c6g|c7g|r6g|r7g)\\.", var.nat_instance_type))
+    error_message = "nat_instance_type must be an arm64 Graviton instance type (e.g. t4g.nano)."
+  }
 }
 
 variable "project_code" {

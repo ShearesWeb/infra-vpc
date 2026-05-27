@@ -6,11 +6,6 @@ resource "aws_route_table" "web" {
     gateway_id = aws_internet_gateway.main.id
   }
 
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.main.id
-  }
-
   tags = {
     Name = "${var.project_code}-web-rtb"
   }
