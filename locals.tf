@@ -1,4 +1,12 @@
 locals {
+  environments = {
+    prd     = 0
+    preprod = 1
+    com     = 2
+  }
+
+  tiers = var.enable_nat_instance ? ["web", "app", "db"] : ["web", "db"]
+
   tier_index = {
     web = 0
     app = 1
@@ -11,16 +19,9 @@ locals {
     db  = "private"
   }
 
-  effective_environments = {
-    for env, config in var.environments : env => {
-      index = config.index
-      tiers = var.enable_nat_instance ? config.tiers : toset([for t in config.tiers : t if t != "app"])
-    }
-  }
-
   subnets = merge([
-    for env, config in local.effective_environments : {
-      for pair in setproduct(config.tiers, var.availability_zones) :
+    for env, env_index in local.environments : {
+      for pair in setproduct(local.tiers, var.availability_zones) :
       "${env}-${pair[0]}-${substr(pair[1], -2, 2)}" => {
         environment       = env
         tier              = pair[0]
@@ -28,7 +29,7 @@ locals {
         az_short          = substr(pair[1], -2, 2)
         subnet_type       = local.tier_type[pair[0]]
         cidr_block = cidrsubnet(
-          cidrsubnet(var.vpc_cidr, 2, config.index),
+          cidrsubnet(var.vpc_cidr, 2, env_index),
           3,
           local.tier_index[pair[0]] * length(var.availability_zones) + index(var.availability_zones, pair[1])
         )
