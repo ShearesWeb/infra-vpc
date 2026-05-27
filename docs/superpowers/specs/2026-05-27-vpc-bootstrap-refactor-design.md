@@ -36,9 +36,8 @@ The `modules/natinstance/` directory is deleted. The `ssm.tf` file is deleted. A
 | `environment_index` | `map(number)` | `{prd=0, preprod=1, com=3}` | Fixed CIDR index per env for allocation stability |
 | `nat_instance_type` | `string` | `"t4g.nano"` | NAT instance size |
 | `enable_nat_instance` | `bool` | `true` | Toggle NAT instance + app subnets |
-| `enable_vpc_endpoints` | `bool` | `true` | S3 + DynamoDB gateway endpoints |
+| `enable_vpc_endpoints` | `bool` | `true` | Free endpoints: S3 + DynamoDB gateways + EC2 Instance Connect |
 | `enable_private_dns` | `bool` | `true` | Private Route53 zone |
-| `enable_instance_connect` | `bool` | `true` | EC2 Instance Connect endpoint |
 
 Default `environments`:
 ```hcl
@@ -140,16 +139,14 @@ One route table per tier (shared across environments). Subnets associated by tie
 All gated behind boolean variables:
 
 ### VPC Endpoints (`enable_vpc_endpoints`)
-- Gateway endpoints for S3 and DynamoDB
-- Attached to all private route tables (app + db)
+All free-tier endpoints, controlled by a single flag:
+- S3 Gateway endpoint (free) — attached to all private route tables (app when NAT enabled, db always)
+- DynamoDB Gateway endpoint (free) — attached to all private route tables (app when NAT enabled, db always)
+- EC2 Instance Connect Endpoint (free) — in first public subnet, uses NAT instance SG when NAT enabled
 
 ### Private DNS (`enable_private_dns`)
 - Route53 private hosted zone: `internal.${var.project_code}`
 - Associated with the VPC
-
-### EC2 Instance Connect (`enable_instance_connect`)
-- Endpoint in the first public subnet
-- Uses NAT instance security group (when NAT enabled) or a dedicated SG
 
 ## Backend Configuration
 
