@@ -29,7 +29,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init -backend-config=${{ vars.BACKEND_CONFIG }}
+        run: terraform init -backend-config=config/sg.tfbackend
 
       - name: Terraform Apply
-        run: terraform apply -var-file=${{ vars.TFVARS }} -auto-approve
+        run: terraform apply -var-file=config/sg.tfvars -auto-approve
