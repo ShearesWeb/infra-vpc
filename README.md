@@ -1,6 +1,6 @@
 # infra-vpc
 
-Terraform project to quickly bootstrap a VPC in any AWS account. Deploys a multi-environment VPC with public, private, and isolated subnets across 2 AZs, with optional NAT instance (fck-nat), VPC endpoints, and private DNS.
+Terraform project to quickly bootstrap a production-ready VPC in any AWS account at the lowest possible cost. Deploys multiple environments (prd, preprod, com) in a single VPC with isolated CIDR blocks, spanning 2 AZs for bare minimum high availability requirements. NAT Gateway is replaced with a fck-nat instance (~$3/mo vs ~$32/mo), and can be disabled entirely for zero-cost setups.
 
 ## Architecture
 
