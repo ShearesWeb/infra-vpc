@@ -8,7 +8,7 @@ resource "aws_subnet" "main" {
   tags = {
     Name             = "${var.project_code}-${each.key}"
     Environment      = each.value.environment
-    Tier             = each.value.tier
+    Zone             = each.value.tier
     SubnetType       = each.value.subnet_type
     AvailabilityZone = each.value.az_short
   }

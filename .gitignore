@@ -2,8 +2,9 @@
 upload/
 **/dist/
 
-# Local .terraform directories
+# Local .terraform directories and lock file
 **/.terraform/*
+.terraform.lock.hcl
 
 # AWS credentials file (if any)
 .aws
@@ -28,5 +29,10 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Docs
+# Docs and logs
 docs/
+log/
+
+# Agent artifacts
+.agents/
+skills-lock.json
