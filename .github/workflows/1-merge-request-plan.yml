@@ -16,6 +16,9 @@ jobs:
     if: github.event.pull_request.merged == true
     name: Terraform Plan
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
     steps:
       - uses: actions/checkout@v4
         with:
