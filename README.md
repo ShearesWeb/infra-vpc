@@ -1,10 +1,6 @@
 # infra-vpc
 
-Quick-bootstrap VPC for startups and small teams running multiple environments (prd, preprod, com) in a single AWS account. Instead of paying for separate accounts and AWS Organizations, this packs all environments into one VPC with isolated CIDR blocks — good enough to get shipping, easy to split later when you outgrow it.
-
-Subnets span 2 AZs for high availability — run active-active across zones for stateless workloads, or active-standby with automatic failover for databases. If an AZ goes down, your traffic shifts to the surviving zone with no manual intervention (assuming your services are deployed to both).
-
-Costs are kept minimal: a fck-nat instance at ~$3/mo replaces the $32/mo NAT Gateway, free gateway endpoints for S3/DynamoDB, and the whole thing can run without NAT at all if your private subnets don't need outbound internet.
+Terraform project to quickly bootstrap a production-ready VPC in any AWS account at the lowest possible cost. Deploys multiple environments (prd, preprod, com) in a single VPC with isolated CIDR blocks, spanning 2 AZs for bare minimum high availability requirements. NAT Gateway is replaced with a fck-nat instance (~$3/mo vs ~$32/mo), and can be disabled entirely for zero-cost setups.
 
 ## Architecture
 
