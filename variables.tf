@@ -33,37 +33,6 @@ variable "enable_vpc_endpoints" {
   default     = true
 }
 
-variable "environments" {
-  description = "Map of environments. Each gets a /18 CIDR block. Index controls allocation order (0-3)."
-  type = map(object({
-    index = number
-    tiers = set(string)
-  }))
-  default = {
-    prd = {
-      index = 0
-      tiers = ["web", "app"]
-    }
-    preprod = {
-      index = 1
-      tiers = ["web", "app"]
-    }
-    com = {
-      index = 2
-      tiers = ["web", "db"]
-    }
-  }
-
-  validation {
-    condition     = alltrue([for env in var.environments : env.index >= 0 && env.index <= 3])
-    error_message = "Environment index must be between 0 and 3."
-  }
-
-  validation {
-    condition     = alltrue([for env in var.environments : alltrue([for t in env.tiers : contains(["web", "app", "db"], t)])])
-    error_message = "Tier must be one of: web, app, db."
-  }
-}
 
 variable "nat_instance_type" {
   description = "EC2 instance type for the fck-nat instance (must be arm64/Graviton)"
