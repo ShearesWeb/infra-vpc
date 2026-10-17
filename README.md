@@ -1,6 +1,6 @@
 # infra-vpc
 
-Terraform project to quickly bootstrap a production-ready VPC in any AWS account at the lowest possible cost. Deploys multiple environments (prd, preprod, com) in a single VPC with isolated CIDR blocks, spanning 2 AZs for bare minimum high availability requirements. NAT Gateway is replaced with a fck-nat instance (~$3/mo vs ~$32/mo), and can be disabled entirely for zero-cost setups.
+Bootstraps a production-ready VPC in any AWS account at the lowest possible cost. Every environment (prd, preprod, com) shares one VPC with isolated CIDR blocks across two availability zones, split into public, private and isolated subnet tiers. A fck-nat instance replaces the NAT Gateway, cutting NAT from about $32 to $3 a month, and can be switched off entirely for a zero-cost setup. Provisioned with Terraform.
 
 ## Architecture
 
